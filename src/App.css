@@ -5,91 +5,149 @@
 .page {
   display: grid;
   min-height: 100vh;
-  padding: 24px;
+  padding: 48px 32px;
   place-items: center;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgb(220 231 223 / 65%), transparent 48%),
-    #f6f5f2;
 }
 
-.card {
-  width: min(100%, 480px);
-  padding: 56px 52px 38px;
-  border: 1px solid rgb(36 42 40 / 8%);
-  border-radius: 24px;
-  background: rgb(255 255 255 / 88%);
-  box-shadow: 0 24px 80px rgb(34 52 42 / 9%);
-  text-align: center;
-}
-
-.icon {
+.transfer-layout {
   display: grid;
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 26px;
-  border-radius: 18px;
-  background: #e4eee6;
-  color: #38684e;
-  font-size: 32px;
-  place-items: center;
+  width: min(100%, 1120px);
+  grid-template-columns: minmax(0, 1fr) 172px minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
 }
 
-.eyebrow {
-  margin: 0 0 14px;
-  color: #62806d;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+.pharmacy-panel {
+  display: flex;
+  height: min(82vh, 680px);
+  min-height: 400px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d9dee5;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(28 39 53 / 8%);
 }
 
-h1 {
+.panel-heading {
+  flex: none;
   margin: 0;
-  font-size: clamp(36px, 9vw, 48px);
-  font-weight: 700;
-  letter-spacing: -0.065em;
-  line-height: 1.1;
-}
-
-.intro {
-  max-width: 330px;
-  margin: 18px auto 28px;
-  color: #747c77;
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.api-message {
-  min-height: 55px;
-  padding: 17px;
-  border: 1px solid #e9ece9;
-  border-radius: 12px;
-  background: #fbfcfa;
-  color: #38684e;
-  font-size: 14px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e3e7ed;
+  font-size: 18px;
   font-weight: 600;
+  line-height: 1.4;
 }
 
-.api-message p {
+.pharmacy-list {
+  flex: 1;
   margin: 0;
+  padding: 8px 0;
+  overflow-y: auto;
+  list-style: none;
 }
 
-.api-message .loading {
-  color: #747c77;
-  font-weight: 400;
+.list-message {
+  padding: 13px 22px;
+  color: #687382;
+  font-size: 14px;
 }
 
-.api-message .error {
+.list-message.error {
   color: #a33737;
 }
 
-.hint {
-  margin: 26px 0 0;
-  color: #a0a6a1;
-  font-size: 12px;
+.pharmacy-option {
+  display: block;
+  width: 100%;
+  padding: 13px 22px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
-@media (max-width: 480px) {
-  .card {
-    padding: 44px 26px 32px;
+.pharmacy-option:hover {
+  background: #f3f6fb;
+}
+
+.pharmacy-option[aria-pressed='true'] {
+  background: #e3edfc;
+}
+
+.pharmacy-option:focus-visible,
+.transfer-button:focus-visible {
+  outline: 3px solid #8bb4ff;
+  outline-offset: -3px;
+}
+
+.transfer-controls {
+  display: grid;
+  gap: 14px;
+}
+
+.transfer-button {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid #d9dee5;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.add-button {
+  border-color: #2162dc;
+  background: #2162dc;
+  color: #fff;
+}
+
+.add-button:hover:not(:disabled) {
+  border-color: #174fb8;
+  background: #174fb8;
+}
+
+.remove-button {
+  background: #fff;
+}
+
+.remove-button:hover:not(:disabled) {
+  background: #f3f6fb;
+}
+
+.transfer-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.button-arrow {
+  font-size: 20px;
+  line-height: 1;
+}
+
+@media (max-width: 680px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .transfer-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pharmacy-panel {
+    height: 36vh;
+    min-height: 220px;
+  }
+
+  .transfer-controls {
+    grid-template-columns: 1fr 1fr;
   }
 }

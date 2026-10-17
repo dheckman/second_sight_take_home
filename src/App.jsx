@@ -1,60 +1,70 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import PharmacyList from './components/PharmacyList.jsx';
+import TransferControls from './components/TransferControls.jsx';
+import useAvailablePharmacies from './hooks/useAvailablePharmacies.js';
 import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const {
+    pharmacies: availablePharmacies,
+    setPharmacies: setAvailablePharmacies,
+    loading,
+    error: loadError,
+  } = useAvailablePharmacies();
+  const [contractedPharmacies, setContractedPharmacies] = useState([]);
+  const [selectedAvailablePharmacy, setSelectedAvailablePharmacy] = useState('');
+  const [selectedContractedPharmacy, setSelectedContractedPharmacy] = useState('');
 
-  useEffect(() => {
-    let isCurrent = true;
+  function addPharmacy() {
+    if (!selectedAvailablePharmacy) return;
 
-    async function loadMessage() {
-      try {
-        const response = await fetch('/api/hello');
-        if (!response.ok) {
-          throw new Error(`The API returned HTTP ${response.status}.`);
-        }
+    setAvailablePharmacies((pharmacies) =>
+      pharmacies.filter((name) => name !== selectedAvailablePharmacy),
+    );
+    setContractedPharmacies((pharmacies) => [...pharmacies, selectedAvailablePharmacy]);
+    setSelectedAvailablePharmacy('');
+    setSelectedContractedPharmacy(selectedAvailablePharmacy);
+  }
 
-        const data = await response.json();
-        if (typeof data.message !== 'string') {
-          throw new Error('The API response did not include a message.');
-        }
+  function removePharmacy() {
+    if (!selectedContractedPharmacy) return;
 
-        if (isCurrent) setMessage(data.message);
-      } catch (requestError) {
-        if (isCurrent) {
-          setError(requestError.message || 'Could not connect to the API.');
-        }
-      }
-    }
-
-    loadMessage();
-    return () => {
-      isCurrent = false;
-    };
-  }, []);
+    setContractedPharmacies((pharmacies) =>
+      pharmacies.filter((name) => name !== selectedContractedPharmacy),
+    );
+    setAvailablePharmacies((pharmacies) => [...pharmacies, selectedContractedPharmacy]);
+    setSelectedContractedPharmacy('');
+    setSelectedAvailablePharmacy(selectedContractedPharmacy);
+  }
 
   return (
     <main className="page">
-      <section className="card" aria-labelledby="welcome-heading">
-        <div className="icon" aria-hidden="true">✳</div>
-        <p className="eyebrow">YOUR NEW CREATIVE SPACE</p>
-        <h1 id="welcome-heading">Hello, React.</h1>
-        <p className="intro">
-          Your app is ready. This message came from your backend API.
-        </p>
+      <div className="transfer-layout">
+        <PharmacyList
+          id="available"
+          title="Available Pharmacies"
+          pharmacies={availablePharmacies}
+          selected={selectedAvailablePharmacy}
+          onSelect={setSelectedAvailablePharmacy}
+          loading={loading}
+          error={loadError}
+        />
 
-        <div className="api-message" aria-live="polite">
-          {error ? (
-            <p className="error">API error: {error}</p>
-          ) : message ? (
-            <p>{message}</p>
-          ) : (
-            <p className="loading">Connecting to the API…</p>
-          )}
-        </div>
-        <p className="hint">React + Vite + Express</p>
-      </section>
+        <TransferControls
+          canAdd={Boolean(selectedAvailablePharmacy) && !loading && !loadError}
+          canRemove={Boolean(selectedContractedPharmacy)}
+          onAdd={addPharmacy}
+          onRemove={removePharmacy}
+        />
+
+        <PharmacyList
+          id="contracted"
+          title="Contracted Pharmacies"
+          pharmacies={contractedPharmacies}
+          selected={selectedContractedPharmacy}
+          onSelect={setSelectedContractedPharmacy}
+        />
+      </div>
     </main>
   );
 }
