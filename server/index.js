@@ -3,8 +3,18 @@ import express from 'express';
 const app = express();
 const port = Number(process.env.PORT) || 3001;
 
-app.get('/api/hello', (_request, response) => {
-  response.json({ message: 'Hello from the backend!' });
+const availablePharmacies = [
+  'Walgreens',
+  'Walmart',
+  'Rite Aid',
+  'Kroger Pharmacy',
+  'Albertsons',
+  'Publix',
+  'Costco Pharmacy',
+];
+
+app.get('/api/pharmacies', (_request, response) => {
+  response.json({ pharmacies: availablePharmacies });
 });
 
 app.listen(port, () => {
