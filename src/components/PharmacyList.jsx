@@ -1,3 +1,5 @@
+import './PharmacyList.css';
+
 function PharmacyList({ title, pharmacies, selected, onSelect, id, loading, error }) {
   return (
     <section className="pharmacy-panel" aria-labelledby={`${id}-heading`}>

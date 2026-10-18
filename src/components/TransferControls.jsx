@@ -1,3 +1,5 @@
+import './TransferControls.css';
+
 function TransferControls({
   canAdd,
   canRemove,
