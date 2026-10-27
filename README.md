@@ -46,12 +46,16 @@ The server supports an optional `PORT` environment variable when run by itself (
 - Add search and eligibility filters, keeping business-rule validation authoritative on the server.
 - Expand test coverage for malformed API responses, accessibility behavior, and API integration.
 
-## Testing
+c
 
 Run the frontend tests with:
 
 ```bash
 npm test
 ```
+
+## Component Mockup
+
+![Component mockup](/component_mockup.png?raw=true)
 
 The tests verify that the available pharmacies load from the API, the contracted list starts empty, pharmacies can be moved in either direction, and API errors are shown.
