@@ -54,8 +54,9 @@ Run the frontend tests with:
 npm test
 ```
 
+The tests verify that the available pharmacies load from the API, the contracted list starts empty, pharmacies can be moved in either direction, and API errors are shown.
+
 ## Component Mockup
 
 ![Component mockup](/component_mockup.png?raw=true)
 
-The tests verify that the available pharmacies load from the API, the contracted list starts empty, pharmacies can be moved in either direction, and API errors are shown.
